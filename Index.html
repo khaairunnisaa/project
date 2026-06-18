@@ -1,2 +1,794 @@
-kha# project
-Project
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kementerian Keuangan Republik Indonesia</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark:  #003580;
+      --blue-mid:   #005baa;
+      --blue-light: #0071bc;
+      --gold:       #c8a951;
+      --gold-light: #f0c040;
+      --gray-light: #f4f6f9;
+      --gray-mid:   #e0e4ec;
+      --text-dark:  #1a1a2e;
+      --text-mid:   #444;
+    }
+
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--text-dark); background: #fff; }
+    a    { text-decoration: none; color: inherit; }
+    img  { display: block; max-width: 100%; }
+
+    /* ── Top Bar ─────────────────────────────────────────────── */
+    .topbar {
+      background: var(--blue-dark);
+      color: #fff;
+      font-size: 12px;
+      padding: 5px 0;
+    }
+    .topbar .inner {
+      max-width: 1200px; margin: auto; padding: 0 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .topbar .date { opacity: .85; }
+    .topbar .links a {
+      color: #fff; margin-left: 14px; opacity: .85; transition: opacity .2s;
+    }
+    .topbar .links a:hover { opacity: 1; }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      background: #fff;
+      border-bottom: 3px solid var(--gold);
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      position: sticky; top: 0; z-index: 1000;
+    }
+    header .inner {
+      max-width: 1200px; margin: auto; padding: 0 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      height: 76px;
+    }
+    .logo { display: flex; align-items: center; gap: 14px; }
+    .logo-emblem {
+      width: 56px; height: 56px; background: var(--blue-dark);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: var(--gold); font-weight: 900;
+    }
+    .logo-text h1 { font-size: 15px; color: var(--blue-dark); line-height: 1.2; font-weight: 700; }
+    .logo-text p  { font-size: 11px; color: var(--blue-mid); font-weight: 500; letter-spacing: .3px; }
+
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .search-box {
+      display: flex; align-items: center; border: 1.5px solid var(--gray-mid);
+      border-radius: 20px; overflow: hidden;
+    }
+    .search-box input {
+      border: none; outline: none; padding: 7px 14px; font-size: 13px; width: 200px;
+    }
+    .search-box button {
+      background: var(--blue-dark); color: #fff; border: none;
+      padding: 8px 14px; cursor: pointer; font-size: 13px;
+    }
+    .search-box button:hover { background: var(--blue-mid); }
+    .lang-btn {
+      background: var(--blue-dark); color: #fff; border: none;
+      padding: 7px 14px; border-radius: 4px; font-size: 12px; cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    nav { background: var(--blue-dark); }
+    nav .inner {
+      max-width: 1200px; margin: auto; padding: 0 20px;
+      display: flex; align-items: stretch;
+    }
+    nav a {
+      color: #fff; font-size: 13.5px; font-weight: 500;
+      padding: 13px 16px; display: block; transition: background .2s;
+      white-space: nowrap;
+    }
+    nav a:hover, nav .active > a { background: var(--blue-mid); }
+    .nav-item { position: relative; }
+    .nav-item:hover .dropdown { display: block; }
+    .dropdown {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: #fff; min-width: 230px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.15);
+      border-top: 3px solid var(--gold); z-index: 900;
+    }
+    .dropdown a {
+      color: var(--text-dark); font-size: 13px; padding: 10px 18px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .dropdown a:hover { background: var(--gray-light); color: var(--blue-dark); }
+
+    /* ── Gold Accent Bar ──────────────────────────────────────── */
+    .accent-bar {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+      height: 5px;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, #0090d9 100%);
+      color: #fff; padding: 60px 20px;
+    }
+    .hero .inner {
+      max-width: 1200px; margin: auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+    }
+    .hero-text .tag {
+      background: var(--gold); color: var(--blue-dark); font-size: 11px;
+      font-weight: 700; padding: 4px 12px; border-radius: 3px; display: inline-block;
+      text-transform: uppercase; letter-spacing: .5px; margin-bottom: 16px;
+    }
+    .hero-text h2 { font-size: 30px; line-height: 1.35; margin-bottom: 16px; }
+    .hero-text p  { font-size: 14px; opacity: .85; line-height: 1.7; margin-bottom: 24px; }
+    .hero-text .btn {
+      background: var(--gold); color: var(--blue-dark); padding: 11px 28px;
+      border-radius: 5px; font-weight: 700; font-size: 13px; display: inline-block;
+      transition: background .2s;
+    }
+    .hero-text .btn:hover { background: var(--gold-light); }
+    .hero-visual {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    .hero-stat {
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 10px; padding: 20px; text-align: center; backdrop-filter: blur(4px);
+    }
+    .hero-stat .num { font-size: 26px; font-weight: 700; color: var(--gold-light); }
+    .hero-stat .lbl { font-size: 11px; opacity: .8; margin-top: 4px; line-height: 1.4; }
+
+    /* ── Section Wrapper ──────────────────────────────────────── */
+    .section { padding: 50px 20px; }
+    .section.alt { background: var(--gray-light); }
+    .section .inner { max-width: 1200px; margin: auto; }
+    .sec-title {
+      font-size: 22px; font-weight: 700; color: var(--blue-dark);
+      border-left: 4px solid var(--gold); padding-left: 14px;
+      margin-bottom: 30px;
+    }
+    .sec-title span { display: block; font-size: 12px; font-weight: 400; color: #888; margin-top: 3px; }
+    .view-all {
+      color: var(--blue-light); font-size: 13px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .view-all::after { content: '→'; }
+    .view-all:hover { color: var(--blue-dark); }
+
+    /* ── Layanan Unggulan ─────────────────────────────────────── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .service-card {
+      background: #fff; border-radius: 10px; padding: 26px 20px; text-align: center;
+      border: 1px solid var(--gray-mid);
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,53,128,.12); }
+    .service-card .icon {
+      width: 60px; height: 60px; background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      border-radius: 14px; margin: 0 auto 16px; display: flex; align-items: center;
+      justify-content: center; font-size: 26px;
+    }
+    .service-card h3 { font-size: 14px; color: var(--blue-dark); font-weight: 700; margin-bottom: 8px; }
+    .service-card p  { font-size: 12px; color: #666; line-height: 1.5; }
+
+    /* ── Berita ───────────────────────────────────────────────── */
+    .news-grid {
+      display: grid; grid-template-columns: 2fr 1fr; gap: 28px;
+    }
+    .news-main .card {
+      background: #fff; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--gray-mid); box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      display: flex; flex-direction: column;
+    }
+    .news-thumb {
+      height: 220px; background: linear-gradient(135deg, var(--blue-dark), var(--blue-light));
+      position: relative; overflow: hidden;
+    }
+    .news-thumb .overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,.3);
+      display: flex; align-items: flex-end; padding: 20px;
+    }
+    .news-thumb .cat {
+      background: var(--gold); color: var(--blue-dark); font-size: 10px;
+      font-weight: 700; padding: 3px 10px; border-radius: 3px; text-transform: uppercase;
+    }
+    .news-body { padding: 22px; }
+    .news-body .date { font-size: 11px; color: #999; margin-bottom: 8px; }
+    .news-body h3 { font-size: 17px; color: var(--blue-dark); font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
+    .news-body p  { font-size: 13px; color: #666; line-height: 1.6; }
+
+    .news-side { display: flex; flex-direction: column; gap: 16px; }
+    .news-item {
+      background: #fff; border-radius: 8px; padding: 16px;
+      border: 1px solid var(--gray-mid); display: flex; gap: 14px;
+      transition: box-shadow .2s;
+    }
+    .news-item:hover { box-shadow: 0 4px 14px rgba(0,53,128,.1); }
+    .news-item .num {
+      min-width: 38px; height: 38px; background: var(--blue-dark);
+      color: var(--gold-light); font-weight: 700; font-size: 16px;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .news-item .info { flex: 1; }
+    .news-item .info .date { font-size: 11px; color: #999; }
+    .news-item .info h4 { font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.4; margin-top: 3px; }
+
+    /* ── Pengumuman & Publikasi ───────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .list-card {
+      background: #fff; border-radius: 10px; border: 1px solid var(--gray-mid);
+      overflow: hidden;
+    }
+    .list-card-head {
+      background: var(--blue-dark); color: #fff;
+      padding: 16px 22px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .list-card-head h3 { font-size: 15px; font-weight: 700; }
+    .list-card-head a  { color: var(--gold-light); font-size: 12px; }
+    .list-row {
+      padding: 14px 22px; border-bottom: 1px solid var(--gray-light);
+      display: flex; gap: 14px; align-items: flex-start;
+      transition: background .15s;
+    }
+    .list-row:hover { background: var(--gray-light); }
+    .list-row:last-child { border-bottom: none; }
+    .list-row .dot {
+      width: 8px; height: 8px; background: var(--gold); border-radius: 50; margin-top: 6px; flex-shrink: 0;
+    }
+    .list-row .txt h4 { font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.4; }
+    .list-row .txt p  { font-size: 11px; color: #999; margin-top: 3px; }
+
+    /* ── Statistik APBN ───────────────────────────────────────── */
+    .apbn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .apbn-card {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+      color: #fff; border-radius: 12px; padding: 28px 20px; text-align: center;
+    }
+    .apbn-card .ico { font-size: 32px; margin-bottom: 12px; }
+    .apbn-card .val { font-size: 22px; font-weight: 800; color: var(--gold-light); }
+    .apbn-card .lbl { font-size: 12px; opacity: .8; margin-top: 6px; line-height: 1.4; }
+    .apbn-card .chg { font-size: 11px; color: #7effc0; margin-top: 4px; }
+
+    /* ── Banner Strip ─────────────────────────────────────────── */
+    .banner-strip {
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue-mid));
+      color: #fff; padding: 26px 20px;
+    }
+    .banner-strip .inner {
+      max-width: 1200px; margin: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .banner-strip h3 { font-size: 20px; }
+    .banner-strip p  { font-size: 13px; opacity: .85; margin-top: 4px; }
+    .banner-strip .btn {
+      background: var(--gold); color: var(--blue-dark); padding: 11px 26px;
+      border-radius: 5px; font-weight: 700; font-size: 13px; white-space: nowrap;
+    }
+    .banner-strip .btn:hover { background: var(--gold-light); }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer { background: #0a1f44; color: #cdd5e0; padding: 50px 20px 0; }
+    footer .inner {
+      max-width: 1200px; margin: auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+    }
+    footer .brand .logo-emblem {
+      width: 52px; height: 52px; font-size: 20px; margin-bottom: 14px;
+    }
+    footer .brand h3 { font-size: 14px; color: #fff; line-height: 1.4; margin-bottom: 10px; }
+    footer .brand p  { font-size: 12px; line-height: 1.7; }
+    footer h4 { color: var(--gold-light); font-size: 13px; font-weight: 700; margin-bottom: 16px; letter-spacing: .3px; }
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 10px; }
+    footer ul li a { font-size: 12px; color: #aab2c0; transition: color .2s; }
+    footer ul li a:hover { color: var(--gold-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1); margin-top: 40px;
+      padding: 18px 0; text-align: center; font-size: 11px; color: #667;
+      max-width: 1200px; margin-left: auto; margin-right: auto;
+    }
+    .footer-bottom { padding: 18px 20px; }
+    .social-links { display: flex; gap: 10px; margin-top: 14px; }
+    .social-btn {
+      width: 34px; height: 34px; background: rgba(255,255,255,.1);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 15px; transition: background .2s; color: #fff;
+    }
+    .social-btn:hover { background: var(--gold); color: var(--blue-dark); }
+
+    /* ── Breadcrumb Ticker ────────────────────────────────────── */
+    .ticker {
+      background: var(--blue-mid); color: #fff; padding: 8px 0; overflow: hidden;
+      font-size: 12.5px;
+    }
+    .ticker .inner {
+      max-width: 1200px; margin: auto; padding: 0 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .ticker-label {
+      background: var(--gold); color: var(--blue-dark); font-weight: 700;
+      padding: 3px 12px; border-radius: 3px; white-space: nowrap; font-size: 11px;
+    }
+    .ticker-text {
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .9;
+    }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero .inner, .news-grid, .two-col { grid-template-columns: 1fr; }
+      .services-grid, .apbn-grid         { grid-template-columns: repeat(2, 1fr); }
+      footer .inner                       { grid-template-columns: 1fr 1fr; }
+      .hero-visual                        { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .services-grid, .apbn-grid { grid-template-columns: 1fr; }
+      footer .inner              { grid-template-columns: 1fr; }
+      nav .inner                 { flex-wrap: wrap; }
+      nav a                      { padding: 10px 12px; font-size: 12.5px; }
+      .header-right .search-box input { width: 130px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="inner">
+      <span class="date">Rabu, 18 Juni 2026 | Jakarta, Indonesia</span>
+      <div class="links">
+        <a href="#">LPSE</a>
+        <a href="#">SPAN</a>
+        <a href="#">e-BPHTB</a>
+        <a href="#">DJP Online</a>
+        <a href="#">Kontak</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="inner">
+      <a href="#" class="logo">
+        <div class="logo-emblem">RI</div>
+        <div class="logo-text">
+          <h1>Kementerian Keuangan</h1>
+          <p>Republik Indonesia</p>
+        </div>
+      </a>
+      <div class="header-right">
+        <div class="search-box">
+          <input type="text" placeholder="Cari informasi…" />
+          <button>&#128269;</button>
+        </div>
+        <button class="lang-btn">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav>
+    <div class="inner">
+      <div class="nav-item active">
+        <a href="#">Beranda</a>
+      </div>
+      <div class="nav-item">
+        <a href="#">Profil ▾</a>
+        <div class="dropdown">
+          <a href="#">Sejarah Kemenkeu</a>
+          <a href="#">Visi dan Misi</a>
+          <a href="#">Struktur Organisasi</a>
+          <a href="#">Pimpinan</a>
+          <a href="#">Unit Eselon I</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#">APBN ▾</a>
+        <div class="dropdown">
+          <a href="#">APBN 2026</a>
+          <a href="#">Realisasi APBN</a>
+          <a href="#">Grafik APBN</a>
+          <a href="#">Nota Keuangan</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#">Berita ▾</a>
+        <div class="dropdown">
+          <a href="#">Siaran Pers</a>
+          <a href="#">Berita Terkini</a>
+          <a href="#">Foto</a>
+          <a href="#">Video</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#">Layanan ▾</a>
+        <div class="dropdown">
+          <a href="#">Pajak</a>
+          <a href="#">Kepabeanan & Cukai</a>
+          <a href="#">Perbendaharaan</a>
+          <a href="#">Kekayaan Negara</a>
+          <a href="#">Perimbangan Keuangan</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#">Regulasi</a>
+      </div>
+      <div class="nav-item">
+        <a href="#">Publikasi ▾</a>
+        <div class="dropdown">
+          <a href="#">Laporan Keuangan</a>
+          <a href="#">Kajian Fiskal</a>
+          <a href="#">LKPP</a>
+          <a href="#">Statistik Utang</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#">Hubungi Kami</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Running Ticker -->
+  <div class="ticker">
+    <div class="inner">
+      <span class="ticker-label">INFO</span>
+      <span class="ticker-text">
+        Pendaftaran CPNS Kemenkeu 2026 Dibuka – Cek Formasi di sscasn.bkn.go.id &nbsp;|&nbsp;
+        Pemerintah Resmi Tetapkan APBN 2026 Sebesar Rp 3.621 Triliun &nbsp;|&nbsp;
+        Kemenkeu Luncurkan Layanan Digital Terintegrasi &nbsp;|&nbsp;
+        Deadline SPT Tahunan Badan: 30 April 2026 – Lapor Sekarang
+      </span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="inner">
+      <div class="hero-text">
+        <span class="tag">Berita Utama</span>
+        <h2>APBN 2026: Menjaga Stabilitas, Mendorong Pertumbuhan Ekonomi Nasional</h2>
+        <p>Pemerintah berkomitmen menjaga disiplin fiskal sekaligus mendorong pertumbuhan inklusif melalui belanja produktif yang tepat sasaran dan penerimaan negara yang optimal.</p>
+        <a href="#" class="btn">Selengkapnya</a>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-stat">
+          <div class="num">Rp 3.621 T</div>
+          <div class="lbl">Total Belanja Negara APBN 2026</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">5,2%</div>
+          <div class="lbl">Target Pertumbuhan Ekonomi</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">Rp 2.996 T</div>
+          <div class="lbl">Target Penerimaan Negara</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">2,53%</div>
+          <div class="lbl">Defisit terhadap PDB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="accent-bar"></div>
+
+  <!-- Layanan Unggulan -->
+  <section class="section">
+    <div class="inner">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+        <h2 class="sec-title" style="margin-bottom:0;">Layanan Unggulan<span>Akses layanan Kemenkeu secara cepat &amp; mudah</span></h2>
+        <a href="#" class="view-all">Semua Layanan</a>
+      </div>
+      <div class="services-grid">
+        <a href="#" class="service-card">
+          <div class="icon">🏛️</div>
+          <h3>DJP Online</h3>
+          <p>Lapor & bayar pajak secara online melalui portal resmi Direktorat Jenderal Pajak.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">🛃</div>
+          <h3>CEISA 4.0</h3>
+          <p>Sistem kepabeanan dan cukai terpadu Direktorat Jenderal Bea dan Cukai.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">💰</div>
+          <h3>SPAN</h3>
+          <p>Sistem Perbendaharaan dan Anggaran Negara untuk pengelolaan keuangan negara.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">🏗️</div>
+          <h3>KPKNL</h3>
+          <p>Layanan kekayaan negara, lelang, dan penilaian aset milik negara.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">📊</div>
+          <h3>SIKRI</h3>
+          <p>Sistem Informasi Keuangan Daerah untuk monitoring transfer daerah.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">🎓</div>
+          <h3>Beasiswa Kemenkeu</h3>
+          <p>Program beasiswa unggulan putra-putri terbaik bangsa Indonesia.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">📜</div>
+          <h3>e-BPHTB</h3>
+          <p>Layanan elektronik Bea Perolehan Hak atas Tanah dan Bangunan.</p>
+        </a>
+        <a href="#" class="service-card">
+          <div class="icon">🔍</div>
+          <h3>LPSE Kemenkeu</h3>
+          <p>Layanan pengadaan barang/jasa pemerintah secara elektronik.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistik APBN -->
+  <section class="section alt">
+    <div class="inner">
+      <h2 class="sec-title">Realisasi APBN 2026<span>Update per Mei 2026</span></h2>
+      <div class="apbn-grid">
+        <div class="apbn-card">
+          <div class="ico">📈</div>
+          <div class="val">Rp 1.104,2 T</div>
+          <div class="lbl">Pendapatan Negara</div>
+          <div class="chg">▲ 6,8% dari tahun lalu</div>
+        </div>
+        <div class="apbn-card">
+          <div class="ico">💸</div>
+          <div class="val">Rp 1.218,6 T</div>
+          <div class="lbl">Belanja Negara</div>
+          <div class="chg">▲ 4,1% dari tahun lalu</div>
+        </div>
+        <div class="apbn-card">
+          <div class="ico">⚖️</div>
+          <div class="val">Rp 114,4 T</div>
+          <div class="lbl">Defisit Anggaran</div>
+          <div class="chg">1,08% terhadap PDB</div>
+        </div>
+        <div class="apbn-card">
+          <div class="ico">🏦</div>
+          <div class="val">Rp 8.671,9 T</div>
+          <div class="lbl">Utang Pemerintah</div>
+          <div class="chg">38,9% rasio terhadap PDB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Berita Terkini -->
+  <section class="section">
+    <div class="inner">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <h2 class="sec-title" style="margin-bottom:0;">Berita Terkini<span>Informasi seputar kebijakan dan kegiatan Kemenkeu</span></h2>
+        <a href="#" class="view-all">Semua Berita</a>
+      </div>
+      <div class="news-grid">
+        <div class="news-main">
+          <div class="card">
+            <div class="news-thumb">
+              <div class="overlay"><span class="cat">Kebijakan Fiskal</span></div>
+            </div>
+            <div class="news-body">
+              <p class="date">📅 18 Juni 2026</p>
+              <h3>Sri Mulyani: Ekonomi Indonesia Tumbuh 5,1% di Kuartal I 2026, Optimisme Terus Dijaga</h3>
+              <p>Menteri Keuangan Sri Mulyani Indrawati menyatakan optimisme terhadap ketahanan ekonomi Indonesia di tengah ketidakpastian global. Belanja produktif pemerintah menjadi salah satu penopang utama pertumbuhan ekonomi nasional pada kuartal pertama tahun ini.</p>
+            </div>
+          </div>
+        </div>
+        <div class="news-side">
+          <a href="#" class="news-item">
+            <div class="num">1</div>
+            <div class="info">
+              <p class="date">17 Jun 2026</p>
+              <h4>Pemerintah Perkuat Dana Desa 2026 untuk Pengembangan Ekonomi Lokal</h4>
+            </div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="num">2</div>
+            <div class="info">
+              <p class="date">16 Jun 2026</p>
+              <h4>DJP Catat Penerimaan Pajak Mei 2026 Tumbuh 11,3% YoY</h4>
+            </div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="num">3</div>
+            <div class="info">
+              <p class="date">15 Jun 2026</p>
+              <h4>Kemenkeu Rilis PMK Baru Tentang Pengelolaan BMN yang Lebih Transparan</h4>
+            </div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="num">4</div>
+            <div class="info">
+              <p class="date">14 Jun 2026</p>
+              <h4>DJBC Tangkap Penyelundupan Rokok Ilegal Senilai Rp 12 Miliar di Kepulauan Riau</h4>
+            </div>
+          </a>
+          <a href="#" class="news-item">
+            <div class="num">5</div>
+            <div class="info">
+              <p class="date">13 Jun 2026</p>
+              <h4>Lelang SBN Ritel SR026 Dibuka, Kupon 6,60% per Tahun</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pengumuman & Publikasi -->
+  <section class="section alt">
+    <div class="inner">
+      <div class="two-col">
+        <div class="list-card">
+          <div class="list-card-head">
+            <h3>📢 Pengumuman</h3>
+            <a href="#">Lihat Semua</a>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Pengumuman Lelang Barang Milik Negara Batch II Tahun 2026</h4>
+              <p>18 Jun 2026 &nbsp;·&nbsp; DJKN</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Jadwal Pelaksanaan Tes SKD CPNS Kemenkeu Gelombang I</h4>
+              <p>16 Jun 2026 &nbsp;·&nbsp; Setjen</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Pemeliharaan Sistem e-Filing DJP Tanggal 20–21 Juni 2026</h4>
+              <p>15 Jun 2026 &nbsp;·&nbsp; DJP</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Penyesuaian Jam Pelayanan Kantor Kemenkeu Selama Idul Adha 1447 H</h4>
+              <p>14 Jun 2026 &nbsp;·&nbsp; Kemenkeu</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Undangan Tender Pengadaan Perangkat IT Kemenkeu TA 2026</h4>
+              <p>12 Jun 2026 &nbsp;·&nbsp; LPSE Kemenkeu</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-card">
+          <div class="list-card-head">
+            <h3>📚 Publikasi Terbaru</h3>
+            <a href="#">Lihat Semua</a>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Nota Keuangan dan RAPBN 2026 — Buku I</h4>
+              <p>PDF &nbsp;·&nbsp; 12,4 MB &nbsp;·&nbsp; 2026</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Laporan Keuangan Pemerintah Pusat (LKPP) Tahun 2025</h4>
+              <p>PDF &nbsp;·&nbsp; 8,7 MB &nbsp;·&nbsp; BPK — WTP</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Kajian Fiskal Regional Kuartal I 2026</h4>
+              <p>PDF &nbsp;·&nbsp; 5,2 MB &nbsp;·&nbsp; BKF</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Statistik Utang Pemerintah Pusat — Mei 2026</h4>
+              <p>Excel &nbsp;·&nbsp; 1,8 MB &nbsp;·&nbsp; DJPPR</p>
+            </div>
+          </div>
+          <div class="list-row">
+            <div class="dot"></div>
+            <div class="txt">
+              <h4>Buletin Ekonomi dan Keuangan Internasional Vol. 14</h4>
+              <p>PDF &nbsp;·&nbsp; 3,1 MB &nbsp;·&nbsp; Kemenkeu</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner Strip -->
+  <div class="banner-strip">
+    <div class="inner">
+      <div>
+        <h3>Investasi untuk Indonesia yang Lebih Maju</h3>
+        <p>Beli Surat Berharga Negara (SBN) Ritel dan dukung pembiayaan pembangunan bangsa.</p>
+      </div>
+      <a href="#" class="btn">Beli SBN Sekarang →</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="inner">
+      <div class="brand">
+        <div class="logo-emblem" style="background:rgba(255,255,255,.1);color:var(--gold-light);">RI</div>
+        <h3>Kementerian Keuangan<br />Republik Indonesia</h3>
+        <p>Jl. Dr. Wahidin Raya No.1<br />Jakarta Pusat 10710<br />Telp: (021) 384-5717<br />Email: kemenkeu.prime@kemenkeu.go.id</p>
+        <div class="social-links">
+          <a href="#" class="social-btn">🐦</a>
+          <a href="#" class="social-btn">📘</a>
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">▶️</a>
+          <a href="#" class="social-btn">💼</a>
+        </div>
+      </div>
+      <div>
+        <h4>Tentang Kami</h4>
+        <ul>
+          <li><a href="#">Sejarah Kemenkeu</a></li>
+          <li><a href="#">Visi dan Misi</a></li>
+          <li><a href="#">Struktur Organisasi</a></li>
+          <li><a href="#">Pimpinan</a></li>
+          <li><a href="#">Unit Eselon I</a></li>
+          <li><a href="#">Galeri Foto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Layanan</h4>
+        <ul>
+          <li><a href="#">DJP Online</a></li>
+          <li><a href="#">CEISA 4.0</a></li>
+          <li><a href="#">SPAN Kemenkeu</a></li>
+          <li><a href="#">KPKNL</a></li>
+          <li><a href="#">SIKRI</a></li>
+          <li><a href="#">LPSE Kemenkeu</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Informasi</h4>
+        <ul>
+          <li><a href="#">Regulasi</a></li>
+          <li><a href="#">Pengaduan</a></li>
+          <li><a href="#">PPID Kemenkeu</a></li>
+          <li><a href="#">Whistleblowing System</a></li>
+          <li><a href="#">Peta Situs</a></li>
+          <li><a href="#">Karir di Kemenkeu</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div style="max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <span>© 2026 Kementerian Keuangan Republik Indonesia. Hak Cipta Dilindungi.</span>
+        <span>
+          <a href="#" style="color:#667;margin:0 8px;">Kebijakan Privasi</a> |
+          <a href="#" style="color:#667;margin:0 8px;">Syarat Penggunaan</a> |
+          <a href="#" style="color:#667;margin:0 8px;">Aksesibilitas</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
